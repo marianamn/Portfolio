@@ -9,6 +9,7 @@ require('./routes')({
     controllers
 });
 
+/* eslint no-console: "off" */
 app.listen(config.port, () => {
     console.log(`App listen to port: ${config.port}`);
 });
