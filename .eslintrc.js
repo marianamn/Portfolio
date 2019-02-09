@@ -51,10 +51,7 @@ module.exports = {
         "default-case": "error",
         "dot-location": "error",
         "dot-notation": "error",
-        "eol-last": [
-            "error",
-            "never"
-        ],
+        "eol-last": ["off"],
         "eqeqeq": "error",
         "func-call-spacing": "error",
         "func-name-matching": "error",
@@ -72,8 +69,8 @@ module.exports = {
             "error",
             "beside"
         ],
-        "indent": "error",
-        "indent-legacy": "error",
+        "indent": [2, "tabs"]
+        "indent-legacy": "false",
         "init-declarations": "error",
         "jsx-quotes": "error",
         "key-spacing": "error",
@@ -158,7 +155,7 @@ module.exports = {
         "no-param-reassign": "error",
         "no-path-concat": "error",
         "no-plusplus": "error",
-        "no-process-env": "error",
+        "no-process-env": "off",
         "no-process-exit": "error",
         "no-proto": "error",
         "no-prototype-builtins": "error",
@@ -223,7 +220,7 @@ module.exports = {
         "prefer-rest-params": "error",
         "prefer-spread": "error",
         "prefer-template": "error",
-        "quote-props": "error",
+        "quote-props": "off",
         "quotes": [
             "error",
             "single"

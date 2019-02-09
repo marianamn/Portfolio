@@ -4,9 +4,10 @@
   "description": "personal portfolio-api node.js project",
   "main": "server/src/app.js",
   "scripts": {
-    "dev": "nodemon start",
     "start": "node server/src/app.js",
+    "dev": "nodemon server/src/app.js",
     "lint": "eslint server/src/*.js",
+    "start-local-dev": "NODE_ENV=\"development\"  nodemon --watch ./ -L --ignore build/ --ignore node_modules/ app.js;",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
