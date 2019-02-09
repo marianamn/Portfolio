@@ -1,28 +1,19 @@
 const multer = require("multer");
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+const cloudinaryConfig = require("./cloudinary");
 const constants = require("../common/constants");
 
-module.exports = storagePlace => {
+module.exports = folder => {
+  cloudinary.config(cloudinaryConfig);
   return multer({
-    storage: multer.diskStorage({
-      destination: (req, file, callback) => {
-        callback(null, storagePlace);
-      },
+    storage: cloudinaryStorage({
+      cloudinary: cloudinary,
+      folder: folder,
+      allowedFormats: ["jpg", "jpeg", "png"],
       filename: (req, file, callback) => {
-        callback(null, `${Date.now()}-${file.originalname}`);
+        callback(undefined, `${Date.now()}-${file.originalname}`);
       }
-    }),
-    fileFilter: (req, file, callback) => {
-      if (
-        !file.originalname.toLocaleLowerCase().match(/\.(jpg|jpeg|png|gif)$/)
-      ) {
-        return callback(constants.onlyImagesAllowed);
-      }
-
-      return callback(null, true);
-    },
-    limits: {
-      files: 1,
-      fileSize: constants.maxFileSize
-    }
-  });
+    })
+  })
 };

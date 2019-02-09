@@ -13,8 +13,7 @@ module.exports = ({ app, controllers }) => {
   const router = new Router();
   const authorizedMiddleware = passport.authenticate("jwt", { session: false });
 
-  const storagePlace = 'image-uploads/';
-  const imageUploadMiddleware = multerConfig(storagePlace).single('picture');
+  const imageUploadMiddleware = multerConfig("users").single("picture");
 
   router
     .get("/users", controllers.getAllUsers)

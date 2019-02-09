@@ -1,5 +1,5 @@
 module.exports = {
-  cloud_name: "mariana-mn",
-  api_key: "939399513473937",
-  api_secret: "ilcfV23UY2UOtuivvhoSOY-XcyQ"
+  cloud_name: "htfczgyol",
+  api_key: "968865666532495",
+  api_secret: "WR5sNOO8zRZM65Jb206eIjQ0csE"
 };

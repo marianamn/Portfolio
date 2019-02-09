@@ -7,7 +7,7 @@ const constants = require("../common/constants");
 const utilsFunctions = require("../utils/utils");
 
 const rounds = 10;
-const usersCloudinaryImgFolder = "/myblog/users";
+const usersCloudinaryImgFolder = "/users";
 
 module.exports = model => {
   let { User } = model;
@@ -23,31 +23,19 @@ module.exports = model => {
           isDeleted: false
         });
 
-        if (pictureData && pictureData.path) {
-          cloudinaryUtils
-            .saveImage(pictureData.path, usersCloudinaryImgFolder)
-            .then(picture => {
-              newUser.pictureData = picture;
-
-              return this.hashPassword(newUser).then(user => {
-                return dataUtils
-                  .save(newUser)
-                  .then(user => resolve(user))
-                  .catch(err => reject(err));
-              });
-            })
-            // after saving the image in cloudinary delete it from file system
-            .then(() =>
-              utilsFunctions.deleteFileFromFileSystem(pictureData.path)
-            );
-        } else {
-          return this.hashPassword(newUser).then(user => {
-            return dataUtils
-              .save(newUser)
-              .then(user => resolve(user))
-              .catch(err => reject(err));
-          });
+        if (pictureData && pictureData.public_id) {
+          newUser.pictureData = {
+            public_id: pictureData.public_id,
+            secure_url: pictureData.secure_url
+          };
         }
+
+        return this.hashPassword(newUser).then(user => {
+          return dataUtils
+            .save(newUser)
+            .then(user => resolve(viewModel.getUserViewModel(user)))
+            .catch(err => reject(err));
+        });
       });
     },
     login(user) {
@@ -85,39 +73,37 @@ module.exports = model => {
           dataUtils.getById(User, id).then(user => {
             let isUserHasImage = user.pictureData && user.pictureData.public_id !== undefined;
             let isUserPictureRequestedToBeUpdated =
-              pictureData && pictureData.path;
+              pictureData && pictureData.public_id !== undefined;
 
             if (isUserHasImage && isUserPictureRequestedToBeUpdated) {
               cloudinaryUtils.deleteImage(
                 user.pictureData.public_id,
                 usersCloudinaryImgFolder
+              )
+              .then( () => {
+                return this.hashPassword(user).then(() => {
+                  userInfoToUpdate.pictureData = {
+                    public_id: pictureData.public_id,
+                    secure_url: pictureData.secure_url
+                  };
+                  return dataUtils
+                    .update(User, id, userInfoToUpdate)
+                    .then(user => resolve(user))
+                    .catch(err => reject(err));
+                  })
+                }
               );
-
-              cloudinaryUtils
-                .saveImage(pictureData.path, usersCloudinaryImgFolder)
-                .then(picture => {
-                  userInfoToUpdate.pictureData = picture;
-                  return this.hashPassword(user).then(() => {
-                    return dataUtils
-                      .update(User, id, userInfoToUpdate)
-                      .then(user => resolve(user))
-                      .catch(err => reject(err));
-                  });
-                })
-                .then(() => utilsFunctions.deleteFileFromFileSystem(pictureData.path));
             } else if (!isUserHasImage && isUserPictureRequestedToBeUpdated) {
-              cloudinaryUtils
-                .saveImage(pictureData.path, usersCloudinaryImgFolder)
-                .then(picture => {
-                  userInfoToUpdate.pictureData = picture;
-                  return this.hashPassword(user).then(() => {
-                    return dataUtils
-                      .update(User, id, userInfoToUpdate)
-                      .then(user => resolve(user))
-                      .catch(err => reject(err));
-                  });
-                })
-                .then(() => utilsFunctions.deleteFileFromFileSystem(pictureData.path));
+              return this.hashPassword(user).then(() => {
+                userInfoToUpdate.pictureData = {
+                  public_id: pictureData.public_id,
+                  secure_url: pictureData.secure_url
+                };
+                return dataUtils
+                  .update(User, id, userInfoToUpdate)
+                  .then(user => resolve(user))
+                  .catch(err => reject(err));
+              });
             } else if (isUserHasImage && !isUserPictureRequestedToBeUpdated) {
               cloudinaryUtils
                 .deleteImage(
@@ -156,7 +142,7 @@ module.exports = model => {
             resolve(user);
           });
         });
-      }).catch(err => reject(err));
+      }).catch(err => console.log(err));
     },
     getAllUsers(query) {
       return dataUtils.getAll(User, query).then(users => {
