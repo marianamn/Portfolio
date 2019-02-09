@@ -4,6 +4,7 @@
   "description": "personal portfolio-api node.js project",
   "main": "server/src/app.js",
   "scripts": {
+    "dev": "nodemon start",
     "start": "node server/src/app.js",
     "lint": "eslint server/src/*.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,6 +31,7 @@
     "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
-    "eslint": "^5.5.0"
+    "eslint": "^5.5.0",
+    "nodemon": "^1.18.10"
   }
 }
