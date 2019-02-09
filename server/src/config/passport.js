@@ -7,13 +7,13 @@ const config = require("./index");
 module.exports = passport => {
   let opt = {};
 
-  opt.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
+  opt.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
   opt.secretOrKey = config.secret;
 
   passport.use(
     new JwtStrategy(opt, (jwt_payload, done) => {
       dataUtils
-        .getById(User, jwt_payload._id)
+        .getById(User, jwt_payload.id)
         .then(user => {
           if (!user) {
             return done(null, false);

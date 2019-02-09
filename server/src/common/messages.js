@@ -12,7 +12,8 @@ module.exports = (item) => {
     notDeleted: `${item} was not deleted!`,
     emptyRequest: 'Request object passed is empty',
     loggedIn: `${item} successfully logged in!`,
-    notLoggedIn: `${item} successfully logged in!`,
+    notLoggedIn: `Log in failed!`,
+    wrongPassword: "Wrong password",
     registered: `${item} successfully register!`,
     notRegistered: `${item} was not registered!`,
 

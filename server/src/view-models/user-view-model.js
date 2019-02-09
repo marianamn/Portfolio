@@ -10,13 +10,16 @@ encodeFile = file => {
 
 module.exports = {
   getUserViewModel(user) {
-    let userViewModel = {
-      _id: user._id,
+    const picture = user.pictureData ? user.pictureData.secure_url : constants.defaultUserImage;
+    return {
+      id: user._id,
       name: user.name,
-      username: user.username,
-      email: user.email
+      email: user.email,
+      role: user.role,
+      picture,
+      isDeleted: user.isDeleted,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
     };
-
-    return userViewModel;
   }
 };

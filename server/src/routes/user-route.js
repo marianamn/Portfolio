@@ -22,7 +22,7 @@ module.exports = ({ app, controllers }) => {
     .post("/register", imageUploadMiddleware, controllers.register)
     .post("/login", controllers.login)
     .put("/users/:id", imageUploadMiddleware, authorizedMiddleware, controllers.updateUser)
-    .delete("/users/:id", authorizedMiddleware, controllers.deleteUser);
+    .put("/users/delete-user/:id", authorizedMiddleware, controllers.deleteUser);
 
   app.use("/api", router);
 

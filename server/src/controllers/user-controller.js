@@ -24,8 +24,6 @@ module.exports = params => {
         })
         .catch(err => {
           let errorMessage = err.message;
-          console.log("*****", err)
-
           // If unique field is duplicated customize error message
           if (err.code === 11000 && err.name === "MongoError") {
             errorMessage = "User already exists!";
@@ -45,7 +43,7 @@ module.exports = params => {
         .login(user)
         .then(result => {
           if (result === "user not found") {
-            throw Error("User not found");
+            throw Error("User not found. Make sure your email is correct!");
           }
 
           if (result.isMatch) {
@@ -56,13 +54,14 @@ module.exports = params => {
             res.status(constants.statusCodeCreated).send({
               success: true,
               message: message.loggedIn,
-              token: `JWT ${token}`,
+              token: `Bearer ${token}`,
               user: result.user
             });
           } else {
             res.json({
               success: false,
-              message: "Wrong password"
+              message: message.wrongPassword,
+              errorMessage: "User not found. Make sure your password is correct!"
             });
           }
         })
@@ -77,16 +76,16 @@ module.exports = params => {
         });
     },
     updateUser(req, res) {
-      let userInfo = req.body;
+      const userInfo = req.body;
+      const pictureData = req.file;
 
       if (Object.keys(req.body).length === 0) {
         throw Error(message.emptyRequest);
       }
 
       data
-        .updateUser(req.user._id, userInfo)
+        .updateUser(req.user._id, userInfo, pictureData)
         .then(user => {
-          console.log(user);
           res.status(constants.statusCodeSuccess).send({
             success: true,
             message: message.updated,

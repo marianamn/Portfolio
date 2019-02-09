@@ -23,7 +23,7 @@ module.exports = {
 
     addParamToQuery(sortBy, query.sort, query.order);
 
-    let getCollectionCount = model.count();
+    let getCollectionCount = model.countDocuments();
     let getCollection = new Promise((resolve, reject) => {
       model
         .find(filterBy)
@@ -99,9 +99,9 @@ module.exports = {
       });
     });
   },
-  getUserByUsername(model, username) {
+  getUserByEmail(model, email) {
     return new Promise((resolve, reject) => {
-      model.findOne({ username }, (err, user) => {
+      model.findOne({ email }, (err, user) => {
         if (err) {
           reject(err);
         }

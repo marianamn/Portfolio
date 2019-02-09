@@ -42,6 +42,9 @@ module.exports = modelRegistrator.register("User", {
     type: {}
   },
   role: {
-    type: String,
+    type: String
+  },
+  isDeleted: {
+    type: Boolean
   }
 });
