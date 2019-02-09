@@ -23,12 +23,7 @@ module.exports = params => {
           });
         })
         .catch(err => {
-          let errorMessage = err.message;
-          // If unique field is duplicated customize error message
-          if (err.code === 11000 && err.name === "MongoError") {
-            errorMessage = "User already exists!";
-          }
-
+          const errorMessage = err.message;
           res.status(constants.statusCodeBadRequest).send({
             success: false,
             message: message.notRegistered,
