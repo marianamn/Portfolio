@@ -5,20 +5,23 @@ const validateModel = require("../utils/validator");
 module.exports = modelRegistrator.register("User", {
   name: {
     type: String,
-    require: [true, "Name is required!"],
-    minlength: constants.nameMinLength,
-    maxlength: constants.nameMaxLength
-  },
-  username: {
-    type: String,
-    require: [true, "Username is required!"],
-    unique: true,
-    minlength: constants.nameMinLength,
-    maxlength: constants.nameMaxLength
+    required: [true, "Name is required!"],
+    minlength: [
+      constants.nameMinLength,
+      `Name must be between ${constants.nameMinLength} and ${
+        constants.nameMaxLength
+      } characters long!`
+    ],
+    maxlength: [
+      constants.nameMaxLength,
+      `Name must be between ${constants.nameMinLength} and ${
+        constants.nameMaxLength
+      } characters long!`
+    ]
   },
   email: {
     type: String,
-    require: [true, "Email is required!"],
+    required: [true, "Email is required!"],
     unique: true,
     validate: {
       validator: value => validateModel.validateEmail(value),
@@ -27,7 +30,18 @@ module.exports = modelRegistrator.register("User", {
   },
   password: {
     type: String,
-    require: [true, "Password is required!"],
-    minlength: constants.passwordMinLength
+    required: [true, "Password is required!"],
+    minlength: [
+      constants.passwordMinLength,
+      `Password must be at least ${
+        constants.passwordMinLength
+      } characters long!`
+    ]
+  },
+  pictureData: {
+    type: {}
+  },
+  role: {
+    type: String,
   }
 });

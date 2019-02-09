@@ -5,15 +5,16 @@ const getMessage = require("../common/messages");
 const utilsFunctions = require("../utils/utils");
 
 module.exports = params => {
-  let { data } = params;
-  let message = getMessage("User");
+  const { data } = params;
+  const message = getMessage("User");
 
   return {
     register(req, res) {
-      let newUser = req.body;
+      const newUser = req.body;
+      const pictureData = req.file;
 
       data
-        .register(newUser)
+        .register(newUser, pictureData)
         .then(user => {
           res.status(constants.statusCodeCreated).send({
             success: true,
@@ -23,6 +24,12 @@ module.exports = params => {
         })
         .catch(err => {
           let errorMessage = err.message;
+          console.log("*****", err)
+
+          // If unique field is duplicated customize error message
+          if (err.code === 11000 && err.name === "MongoError") {
+            errorMessage = "User already exists!";
+          }
 
           res.status(constants.statusCodeBadRequest).send({
             success: false,

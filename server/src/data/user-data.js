@@ -1,4 +1,5 @@
 const dataUtils = require("./utils/data-utils");
+const cloudinaryUtils = require("./utils/cloudinary-utils");
 const bcrypt = require("bcryptjs");
 const viewModel = require("../view-models/user-view-model");
 const validateModel = require("../utils/validator");
@@ -7,56 +8,44 @@ const utilsFunctions = require("../utils/utils");
 
 const rounds = 10;
 
-let validateRequiredFieldsArePassed = user => {
-  let messages = [];
-  user.name ? "" : messages.push("Name is required!");
-  user.username ? "" : messages.push("Username is required!");
-  user.email ? "" : messages.push("Email is required!");
-  user.password ? "" : messages.push("Password is required!");
-
-  return messages.join(" ");
-};
-
 module.exports = model => {
   let { User } = model;
 
   return {
-    register(user) {
+    register(user, pictureData) {
       return new Promise((resolve, reject) => {
-        const message = validateRequiredFieldsArePassed(user);
-        if (message.length > 0) {
-          reject(new Error(message));
-        }
-
-        if (user.password < constants.passwordMinLength) {
-          reject(
-            new Error(
-              `Password must be at least ${
-                constants.passwordMinLength
-              } characters long!`
-            )
-          );
-        }
-
-        if (
-          !validateModel.validatePasswordContainsDigitsAndLetters(user.password)
-        ) {
-          reject(new Error("Password must contains only letters and numbers!"));
-        }
-
         const newUser = new User({
           name: user.name,
-          username: user.username,
           email: user.email,
-          password: user.password
+          password: user.password,
+          role: user.role ? user.role : "user"
         });
 
-        return this.hashPassword(newUser).then(user => {
-          return dataUtils
-            .save(newUser)
-            .then(user => resolve(user))
-            .catch(err => reject(err));
-        });
+        if (pictureData && pictureData.path) {
+          cloudinaryUtils
+            .saveImage(pictureData.path, "/myblog/users")
+            .then(picture => {
+              newUser.pictureData = picture;
+
+              return this.hashPassword(newUser).then(user => {
+                return dataUtils
+                  .save(newUser)
+                  .then(user => resolve(user))
+                  .catch(err => reject(err));
+              });
+            })
+            // after saving the image in cloudinary delete it from file system
+            .then(() =>
+              utilsFunctions.deleteFileFromFileSystem(pictureData.path)
+            );
+        } else {
+          return this.hashPassword(newUser).then(user => {
+            return dataUtils
+              .save(newUser)
+              .then(user => resolve(user))
+              .catch(err => reject(err));
+          });
+        }
       });
     },
     login(user) {

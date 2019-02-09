@@ -1,7 +1,7 @@
 {
-  "name": "portfolio-api",
+  "name": "marianamn-myblog-api",
   "version": "1.0.0",
-  "description": "personal portfolio-api node.js project",
+  "description": "personal marianamn-myblog-api node.js project",
   "main": "server/src/app.js",
   "scripts": {
     "start": "node server/src/app.js",
@@ -12,17 +12,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marianamn/portfolio-api.git"
+    "url": "git+https://github.com/marianamn/marianamn-myblog-api.git"
   },
   "author": "marianamn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/marianamn/portfolio-api/issues"
+    "url": "https://github.com/marianamn/marianamn-myblog-api/issues"
   },
-  "homepage": "https://github.com/marianamn/portfolio-api#readme",
+  "homepage": "https://github.com/marianamn/marianamn-myblog-api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "cloudinary": "^1.13.2",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",

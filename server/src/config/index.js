@@ -1,4 +1,4 @@
-const connection = process.env.MONGODB_URI || "mongodb://localhost/portfolio";
+const connection = process.env.MONGODB_URI || "mongodb://localhost/myblog";
 const portToRun = process.env.PORT || 3001;
 const url = process.env.NODE_ENV || `http://localhost${portToRun}`;
 const herokuConnectionString =
