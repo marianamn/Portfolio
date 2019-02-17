@@ -57,7 +57,7 @@ module.exports = params => {
               user: result.user
             });
           } else {
-            res.status(constants.statusCodeBadRequest).send(
+            res.json({
               success: false,
               message: message.wrongPassword,
               errorMessage: "User not found. Make sure your password is correct!"
