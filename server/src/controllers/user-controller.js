@@ -50,14 +50,14 @@ module.exports = params => {
               expiresIn: constants.tokenExpiresIn
             });
 
-            res.status(constants.statusCodeCreated).send({
+            res.status(constants.statusCodeSuccess).send({
               success: true,
               message: message.loggedIn,
               token: `Bearer ${token}`,
               user: result.user
             });
           } else {
-            res.json({
+            res.status(constants.statusCodeBadRequest).send({
               success: false,
               message: message.wrongPassword,
               errorMessage: "User not found. Make sure your password is correct!"
