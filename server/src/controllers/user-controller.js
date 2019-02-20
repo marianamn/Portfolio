@@ -2,7 +2,6 @@ const config = require("../config/index");
 const jwt = require("jsonwebtoken");
 const constants = require("../common/constants");
 const getMessage = require("../common/messages");
-const utilsFunctions = require("../utils/utils");
 
 module.exports = params => {
   const { data } = params;
@@ -57,11 +56,7 @@ module.exports = params => {
               user: result.user
             });
           } else {
-            res.status(constants.statusCodeBadRequest).send({
-              success: false,
-              message: message.wrongPassword,
-              errorMessage: "User not found. Make sure your password is correct!"
-            });
+            throw Error("User not found. Make sure your password is correct!");
           }
         })
         .catch(err => {
