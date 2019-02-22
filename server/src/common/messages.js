@@ -14,7 +14,7 @@ module.exports = (item) => {
     loggedIn: `${item} successfully logged in!`,
     notLoggedIn: `Log in failed!`,
     wrongPassword: "Wrong password",
-    registered: `${item} successfully register!`,
+    registered: `${item} successfully registered!`,
     notRegistered: `${item} was not registered!`,
 
     // Image messages
