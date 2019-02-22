@@ -3,6 +3,8 @@ const constants = {
   nameMinLength: 2,
   nameMaxLength: 40,
   passwordMinLength: 6,
+  postMinLength: 5,
+  postMaxLength: 100,
 
   // Status codes
   statusCodeSuccess: 200,

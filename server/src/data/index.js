@@ -10,8 +10,9 @@ module.exports = connectionString => {
 
   // Register all modules
   let User = require("../models/user");
+  let Post = require("../models/post");
 
-  let models = { User };
+  let models = { User, Post };
 
   let data = {};
 
