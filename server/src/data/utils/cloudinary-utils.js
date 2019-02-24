@@ -29,5 +29,17 @@ module.exports = {
         return result;
       }
     );
+  },
+  deleteImages(publicIds) {
+    return cloudinary.v2.api.delete_resources(
+      publicIds,
+      (err, result) => {
+        if (err) {
+          throw new Error(err);
+        }
+
+        return result;
+      }
+    );
   }
 };

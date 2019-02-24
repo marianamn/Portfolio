@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const viewModel = require("../view-models/user-view-model");
 const validateModel = require("../utils/validator");
 const constants = require("../common/constants");
-const utilsFunctions = require("../utils/utils");
 
 const rounds = 10;
 const usersCloudinaryImgFolder = "/users";
@@ -60,6 +59,8 @@ module.exports = model => {
     },
     updateUser(id, userInfoToUpdate, pictureData) {
       return new Promise((resolve, reject) => {
+
+
         if (userInfoToUpdate.password) {
           return this.hashPassword(userInfoToUpdate).then(user => {
             return dataUtils

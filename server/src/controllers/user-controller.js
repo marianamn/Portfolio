@@ -103,9 +103,9 @@ module.exports = params => {
         .getAllUsers(query)
         .then(result => {
           res.json({
-            totalUsers: result.count,
-            items: result.users
-          });
+              totalUsers: result.count,
+              users: result.users
+            });
         })
         .catch(err => {
           res.json(err);
@@ -115,7 +115,7 @@ module.exports = params => {
       data
         .getUserById(req.params.id)
         .then(user => {
-          res.json({ item: user });
+          res.json({ user });
         })
         .catch(err => {
           res.json(err);

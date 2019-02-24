@@ -60,7 +60,11 @@ module.exports = modelRegistrator.register("Post", {
     default: 0
   },
   pictureData: {
-    type: {}
+    type: {},
+    required: [true, "Main post image is required!"]
+  },
+  pictures: {
+    type: Array
   },
   isDeleted: {
     type: Boolean
