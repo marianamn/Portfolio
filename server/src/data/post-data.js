@@ -17,7 +17,7 @@ module.exports = model => {
           .then(user => {
           const tags = post.tags.split(",").map(t => t.trim());
           const newPost = new Post({
-            name: post.name,
+            title: post.title,
             content: post.content,
             category: post.category,
             tags,
@@ -67,6 +67,12 @@ module.exports = model => {
           return viewModel.getPostViewModel(post);
         });
     },
+    getRecentPosts() {
+      return dataUtils.getMostRecent(Post)
+        .then(posts => {
+          return posts.map(post => viewModel.getPostViewModel(post));
+        });
+    },
     updatePost(id, postInfo, pictureData, picturesData) {
       return new Promise((resolve, reject) => {
         const findPost = dataUtils.getById(Post, id);
@@ -83,14 +89,12 @@ module.exports = model => {
 
             const tags = postInfo.tags ? postInfo.tags.split(",").map(t => t.trim()) : post.tags;
             const postToUpdate = {
-              name: postInfo.name || post.name,
+              title: postInfo.title || post.title,
               content: postInfo.content || post.content,
               category: postInfo.category || post.category,
               tags,
               author: user || post.author,
             };
-
-            console.log(pictureData)
 
             if(!pictureData){
               reject(new Error("Post main image is required!"));

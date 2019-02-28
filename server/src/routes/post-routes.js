@@ -15,6 +15,7 @@ module.exports = ({ app, controllers }) => {
 
   router
     .get("/posts", controllers.getAllPosts)
+    .get("/posts/recent-posts", controllers.getRecentPosts)
     .get("/posts/:id", controllers.getPostById)
     .post("/posts", imagesUploadMiddleware, authorizedMiddleware, controllers.createPost)
     .put("/posts/:id", imagesUploadMiddleware, authorizedMiddleware, controllers.updatePost)

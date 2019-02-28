@@ -8,7 +8,7 @@ module.exports = {
 
     return {
       id: post._id,
-      name: post.name,
+      title: post.title,
       content: post.content,
       category: post.category,
       tags: post.tags,
@@ -16,8 +16,8 @@ module.exports = {
       comments: post.comments,
       likes: post.likes,
       dislikes: post.dislikes,
-      pictureData: post.pictureData,
-      pictures: post.pictures,
+      picture: post.pictureData.secure_url,
+      pictures: post.pictures.map(p => p.secure_url),
       isDeleted: post.isDeleted,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt

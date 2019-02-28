@@ -61,6 +61,21 @@ module.exports = {
       });
     });
   },
+  getMostRecent(model) {
+    return new Promise((resolve, reject) => {
+      model
+      .find()
+      .sort("-createdAt")
+      .limit(5)
+      .exec((err, items) => {
+        if (err) {
+          reject(err);
+        }
+
+        return resolve(items);
+      });
+    });
+  },
   save(model) {
     return new Promise((resolve, reject) => {
       return model.save(err => {

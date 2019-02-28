@@ -53,6 +53,16 @@ module.exports = params => {
           res.json(err);
         });
     },
+    getRecentPosts(req, res) {
+      data
+        .getRecentPosts()
+        .then(posts => {
+          res.json({ posts });
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    },
     updatePost(req, res) {
       const postInfo = req.body;
       const pictureData = (req.files && req.files.picture && req.files.picture[0]) || undefined;

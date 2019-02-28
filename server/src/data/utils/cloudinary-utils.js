@@ -7,7 +7,12 @@ module.exports = {
   saveImage(pathToImage, cloudinaryPath) {
     return cloudinary.v2.uploader.upload(
       pathToImage,
-      { folder: cloudinaryPath },
+      {
+        folder: cloudinaryPath,
+        eager: [
+          { width: 4288, height: 2848, crop: "scale" }
+        ]
+      },
       (err, result) => {
         if (err) {
           throw new Error(err);

@@ -3,18 +3,18 @@ const constants = require("../common/constants");
 const validateModel = require("../utils/validator");
 
 module.exports = modelRegistrator.register("Post", {
-  name: {
+  title: {
     type: String,
-    required: [true, "Post name is required!"],
+    required: [true, "Post title is required!"],
     minlength: [
       constants.postMinLength,
-      `Post name must be between ${constants.postMinLength} and ${
+      `Post title must be between ${constants.postMinLength} and ${
         constants.postMaxLength
       } characters long!`
     ],
     maxlength: [
       constants.postMaxLength,
-      `Post name must be between ${constants.postMinLength} and ${
+      `Post title must be between ${constants.postMinLength} and ${
         constants.postMaxLength
       } characters long!`
     ]
@@ -27,14 +27,14 @@ module.exports = modelRegistrator.register("Post", {
     type: String,
     required: [true, "Category is required!"],
     minlength: [
-      constants.postMinLength,
+      constants.nameMinLength,
       `Category name must be between ${constants.nameMinLength} and ${
         constants.nameMaxLength
       } characters long!`
     ],
     maxlength: [
-      constants.postMaxLength,
-      `Post name must be between ${constants.nameMaxLength} and ${
+      constants.nameMaxLength,
+      `Post name must be between ${constants.nameMinLength} and ${
         constants.nameMaxLength
       } characters long!`
     ]
