@@ -6,6 +6,7 @@ const validateModel = require("../utils/validator");
 const constants = require("../common/constants");
 
 const postsCloudinaryImgFolder = "/posts";
+const imageDimensions = "c_scale,h_2848,w_4288/";
 
 module.exports = model => {
   let { Post, User } = model;
@@ -27,9 +28,11 @@ module.exports = model => {
           });
 
           if (pictureData && pictureData.public_id) {
+            const url = pictureData.secure_url;
+            const index = url.indexOf("upload");
             newPost.pictureData = {
               public_id: pictureData.public_id,
-              secure_url: pictureData.secure_url
+              secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
             };
           }
 
@@ -110,9 +113,11 @@ module.exports = model => {
                 postsCloudinaryImgFolder
               )
               .then(() => {
+                const url = pictureData.secure_url;
+                const index = url.indexOf("upload");
                 postToUpdate.pictureData = {
                   public_id: pictureData.public_id,
-                  secure_url: pictureData.secure_url
+                  secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
                 };
                 return dataUtils
                   .update(Post, id, postToUpdate)
@@ -127,9 +132,11 @@ module.exports = model => {
                 .then(() => {
                   const pictures = [];
                   picturesData.forEach(p => {
+                    const url = p.secure_url;
+                    const index = url.indexOf("upload");
                     pictures.push({
                       public_id: p.public_id,
-                      secure_url: p.secure_url
+                      secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
                     });
                   });
                   postToUpdate.pictures = pictures;
@@ -148,16 +155,20 @@ module.exports = model => {
               .then(() => {
                 cloudinaryUtils.deleteImages(post.pictures.map(p => p.public_id))
                   .then(() => {
+                    const url = pictureData.secure_url;
+                    const index = url.indexOf("upload");
                     postToUpdate.pictureData = {
                       public_id: pictureData.public_id,
-                      secure_url: pictureData.secure_url
+                      secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
                     };
 
                     const pictures = [];
                     picturesData.forEach(p => {
+                      const url = p.secure_url;
+                      const index = url.indexOf("upload");
                       pictures.push({
                         public_id: p.public_id,
-                        secure_url: p.secure_url
+                        secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
                       });
                     });
                     postToUpdate.pictures = pictures;
