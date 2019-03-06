@@ -1,12 +1,9 @@
 const dataUtils = require("./utils/data-utils");
 const cloudinaryUtils = require("./utils/cloudinary-utils");
-const bcrypt = require("bcryptjs");
 const viewModel = require("../view-models/post-view-model");
-const validateModel = require("../utils/validator");
-const constants = require("../common/constants");
 
 const postsCloudinaryImgFolder = "/posts";
-const imageDimensions = "c_scale,h_2848,w_4288/";
+const mainImageDimensions = "c_scale,h_4288,w_4288/";
 
 module.exports = model => {
   let { Post, User } = model;
@@ -32,7 +29,7 @@ module.exports = model => {
             const index = url.indexOf("upload");
             newPost.pictureData = {
               public_id: pictureData.public_id,
-              secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
+              secure_url: url.substring(0, index + 7) + mainImageDimensions + url.substring(index + 7, url.length)
             };
           }
 
@@ -117,7 +114,7 @@ module.exports = model => {
                 const index = url.indexOf("upload");
                 postToUpdate.pictureData = {
                   public_id: pictureData.public_id,
-                  secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
+                  secure_url: url.substring(0, index + 7) + mainImageDimensions + url.substring(index + 7, url.length)
                 };
                 return dataUtils
                   .update(Post, id, postToUpdate)
@@ -132,11 +129,9 @@ module.exports = model => {
                 .then(() => {
                   const pictures = [];
                   picturesData.forEach(p => {
-                    const url = p.secure_url;
-                    const index = url.indexOf("upload");
                     pictures.push({
                       public_id: p.public_id,
-                      secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
+                      secure_url:  p.secure_url
                     });
                   });
                   postToUpdate.pictures = pictures;
@@ -159,16 +154,14 @@ module.exports = model => {
                     const index = url.indexOf("upload");
                     postToUpdate.pictureData = {
                       public_id: pictureData.public_id,
-                      secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
+                      secure_url: url.substring(0, index + 7) + mainImageDimensions + url.substring(index + 7, url.length)
                     };
 
                     const pictures = [];
                     picturesData.forEach(p => {
-                      const url = p.secure_url;
-                      const index = url.indexOf("upload");
                       pictures.push({
                         public_id: p.public_id,
-                        secure_url: url.substring(0, index + 7) + imageDimensions + url.substring(index + 7, url.length)
+                        secure_url: p.secure_url
                       });
                     });
                     postToUpdate.pictures = pictures;
